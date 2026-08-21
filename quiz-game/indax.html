@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>每日問答</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    max-width: 600px;
+    margin: 40px auto;
+    padding: 0 20px;
+    background-color: #fff7f0;
+    color: #5b5363;
+  }
+
+  h1 {
+    color: #e9a8b8;
+  }
+
+  button {
+  border: 1px solid #c9d8e8;
+  background-color: #fffdf9;
+}
+
+
+  button {
+    display: block;
+    width: 100%;
+    margin: 12px 0;
+    padding: 14px;
+    font-size: 16px;
+    text-align: left;
+    border: 1px solid #d6cec1;
+    border-radius: 6px;
+    background-color:  #dff1ee;
+    cursor: pointer;
+  }
+
+  button:hover {
+    background-color: #f3ddd0;
+  }
+  #message {
+  display: none;
+}
+
+#message.show-love {
+  display: block;
+  color: #e9a8b8;
+  font-size: 72px;
+  font-weight: bold;
+  font-style: italic;
+  text-align: center;
+  margin-top: 120px;
+}
+</style> 
+</head>
+<div id="quiz-content">
+  <h1>每日問答</h1>
+
+  <h2>第 1 題：明天要一起做什麼呢</h2>
+  <button>玩遊戲</button>
+  <button>掛著通話</button>
+  <button>聊天</button>
+  <button>色色</button>
+</div>
+
+<p id="message"></p>
+
+<script>
+  document.querySelectorAll("button").forEach(function (button) {
+    button.onclick = function () {
+      document.getElementById("quiz-content").style.display = "none";
+
+      const message = document.getElementById("message");
+      message.textContent = "愛你";
+      message.classList.add("show-love");
+    };
+  });
+</script>
+<script>
+  const quizContent = document.getElementById("quiz-content");
+  const message = document.getElementById("message");
+  let questionNumber = 1;
+  let selectedAnswers = [];
+
+  function addButtonEvents() {
+    document.querySelectorAll("button").forEach(function (button) {
+      button.onclick = function () {
+        selectedAnswers.push(button.textContent);
+
+        quizContent.style.display = "none";
+        message.textContent = "愛你";
+        message.classList.add("show-love");
+
+        setTimeout(function () {
+          if (questionNumber === 1) {
+            questionNumber = 2;
+            message.textContent = "";
+            message.classList.remove("show-love");
+            quizContent.style.display = "block";
+
+            quizContent.innerHTML = `
+              <h1>問答遊戲</h1>
+              <h2>第 2 題：下次想一起做什麼呢？</h2>
+              <button>看電影</button>
+              <button>看影片</button>
+              <button>想做什麼就做什麼</button>
+              <button>繼續聊天</button>
+            `;
+
+            addButtonEvents();
+          } else {
+            message.textContent = selectedAnswers[0] + " / " + selectedAnswers[1];
+            message.classList.add("show-love");
+          }
+        }, 3000);
+      };
+    });
+  }
+
+  addButtonEvents();
+</script>
+</body>
+</html>
